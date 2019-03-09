@@ -1,2 +1,3 @@
 helmfiles:
   - "releases/postgresql.yaml"
+  - "releases/redis.yaml"
