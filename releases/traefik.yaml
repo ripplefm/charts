@@ -2,7 +2,6 @@ releases:
   - name: "traefik"
     namespace: "kube-system"
     chart:  "../charts/traefik"
-    wait: true
     values:
       - "../values/ripple.yaml.gotmpl"
       - "../values/traefik.yaml"
