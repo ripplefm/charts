@@ -4,14 +4,14 @@ station_templates: |-
       name: "Station 1",
       tags: ["genre:pop"],
       sources: %{
-        playlist: "link-to-youtube-playlist"
+        playlist: "https://www.youtube.com/playlist?list=PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI"
       }
     },
     %{
       name: "Station 2",
       tags: ["genre:r-and-b"],
       sources: %{
-        user: "link-to-youtube-channel"
+        playlist: "https://www.youtube.com/playlist?list=PLUg_BxrbJNY5gHrKsCsyon6vgJhxs72AH"
       }
     }
   ]
