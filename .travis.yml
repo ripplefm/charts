@@ -1,9 +1,7 @@
 language: generic
 
 before_script:
-  - git clone https://github.com/cloudposse/build-harness.git
-  - make -C build-harness
-  - make -C build-harness helmfile/install
+  - curl -L https://github.com/roboll/helmfile/releases/download/v0.45.3/helmfile_linux_amd64 -o /bin/helmfile
 
 script: ./ci/run.sh
 
