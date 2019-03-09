@@ -17,3 +17,4 @@ vendor/
 .classpath
 .project
 .settings/**
+.env

@@ -1,0 +1,8 @@
+releases:
+  - name: "db"
+    namespace: "ripple"
+    chart: "stable/postgresql"
+    version: 3.11.0
+    wait: true
+    values:
+      - "../values/postgresql.yaml.gotmpl"
