@@ -34,20 +34,20 @@ databases:
 
 redis:
   host: redis-master
-  # password: 
+  password: 
 
-# cookieSecret: 
+cookieSecret: 
 
 mailgun:
-  # apiKey: 
-  # apiDomain: 
+  apiKey: 
+  apiDomain: 
 
 oauth2ClientName: ripple.fm
 
-# youtubeApiKey: 
-# soundcloudApiKey: 
+youtubeApiKey: 
+soundcloudApiKey: 
 
-# publicKey: 
-# privateKey
+publicKey: 
+privateKey:
 
-# station_templates:
+station_templates:

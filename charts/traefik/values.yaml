@@ -1,0 +1,12 @@
+url:
+  protocol: https
+  baseDomain: ripple.fm
+  apiSubdomain: api
+  authSubdomain: accounts
+
+acme:
+  email: danielrudn@gmail.com
+  # staging
+  caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+  # production
+  # caServer: https://acme-v02.api.letsencrypt.org/directory

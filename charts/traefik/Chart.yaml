@@ -1,0 +1,8 @@
+name: traefik
+description: Ingress controller for ripple.fm
+version: 0.1.0
+kubeVersion: ">1.2.0"
+home: "https://github.com/containous/traefik"
+maintainers:
+  - name: Daniel Rudnitski
+    email: danielrudn@gmail.com
