@@ -1,0 +1,10 @@
+language: generic
+
+before_script:
+  - git clone https://github.com/cloudposse/build-harness.git
+  - make -C build-harness
+  - make -C build-harness helmfile/install
+
+script: ./ci/run.sh
+
+after_success: ./ci/deploy.sh
