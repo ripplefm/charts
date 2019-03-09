@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-traefik-ingress-controller-service
+  namespace: kube-system
+spec:
+  type: LoadBalancer
+  selector:
+    app: traefik-ingress-controller
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+    - name: https
+      protocol: TCP
+      port: 443
+    

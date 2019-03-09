@@ -1,4 +1,5 @@
 helmfiles:
+  - "releases/traefik.yaml"
   - "releases/postgresql.yaml"
   - "releases/redis.yaml"
   - "releases/ripple.yaml"
