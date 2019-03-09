@@ -1,0 +1,53 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-oauth2-job"
+  labels:
+    name: oauth2-job
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-oauth2-job"
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: oauth2-job
+          image: {{ .Values.images.auth.image }}:{{ .Values.images.auth.tag }}
+          command: [
+            "node",
+            "dist/cli",
+            "createOAuth2Client",
+            "{{ .Values.oauth2ClientName }}",
+            "{{ .Values.url.protocol }}://{{ .Values.url.baseDomain }}",
+            "-t",
+          ]
+          env:
+            - name: PUBLIC_DOMAIN
+              value: "{{ .Values.url.protocol }}://{{ .Values.url.baseDomain }}"
+            - name: COOKIE_SECRET
+              value: "{{ .Values.cookieSecret }}"
+            - name: REDIS_HOST
+              value: "{{ .Values.redis.host }}"
+            - name: REDIS_PASSWORD
+              value: "{{ .Values.redis.password }}"
+            - name: POSTGRES_HOST
+              value: "{{ .Values.databases.auth.host }}"
+            - name: POSTGRES_USERNAME
+              value: "{{ .Values.databases.auth.user }}"
+            - name: POSTGRES_PASSWORD
+              value: "{{ .Values.databases.auth.password }}"
+            - name: POSTGRES_DATABASE
+              value: "{{ .Values.databases.auth.databaseName }}"
+            - name: MAILGUN_API_KEY
+              value: "{{ .Values.mailgun.apiKey }}"
+            - name: MAILGUN_API_DOMAIN
+              value: "{{ .Values.mailgun.apiDomain }}"
+            - name: PUBLIC_KEY_LOCATION
+              value: "/etc/config/public_key.pem"
+            - name: PRIVATE_KEY_LOCATION
+              value: "/etc/config/private_key.pem"
+            - name: NODE_ENV
+              value: "production"

@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ripple-core-api-ingress
+spec:
+  rules:
+  - host: "{{ .Values.url.apiSubdomain }}.{{ .Values.url.baseDomain }}"
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ .Release.Name }}-ripple-core-api
+          servicePort: 4000
+  

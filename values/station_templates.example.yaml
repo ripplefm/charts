@@ -1,0 +1,17 @@
+station_templates: |-
+  [
+    %{
+      name: "Station 1",
+      tags: ["genre:pop"],
+      sources: %{
+        playlist: "link-to-youtube-playlist"
+      }
+    },
+    %{
+      name: "Station 2",
+      tags: ["genre:r-and-b"],
+      sources: %{
+        user: "link-to-youtube-channel"
+      }
+    }
+  ]

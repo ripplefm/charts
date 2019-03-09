@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ripple-web-ingress
+spec:
+  rules:
+    - host: "{{ .Values.url.baseDomain }}"
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName:  {{ .Release.Name }}-ripple-web
+              servicePort:  8080

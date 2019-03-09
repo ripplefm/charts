@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  name: ripple-core-api-role
+rules:
+  - apiGroups:
+    - ""
+    resources:
+      - endpoints
+    verbs:
+      - list
+      - get

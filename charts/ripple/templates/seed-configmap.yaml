@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name}}-seed-configmap
+data:
+  station_templates.exs:
+    {{ .Values.station_templates | quote }}

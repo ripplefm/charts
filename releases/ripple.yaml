@@ -1,0 +1,9 @@
+releases:
+  - name: "ripple"
+    namespace: "ripple"
+    chart: "../charts/ripple"
+    wait: true
+    values:
+      - "../values/secret/ssl.yaml"
+      - "../values/secret/station_templates.yaml"
+      - "../values/ripple.yaml.gotmpl"
