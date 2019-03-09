@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-ripple-core-api
+  labels:
+    app:  ripple-core-api
+    release: {{ .Release.Name }}
+spec:
+  selector:
+    app: ripple-core-api
+    release:  {{ .Release.Name }}
+  ports:
+    - protocol: TCP
+      port: 4000

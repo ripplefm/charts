@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-ripple-web
+  labels:
+    app: ripple-web
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicas.web }}
+  selector:
+    matchLabels:
+      app: ripple-web
+  template:
+    metadata:
+      labels:
+        app: ripple-web
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-ripple-web
+          image: {{ .Values.images.web.image }}:{{ .Values.images.web.tag }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: REACT_APP_CORE_API_URL
+              value: "{{ .Values.url.protocol }}://{{ .Values.url.apiSubdomain }}.{{ .Values.url.baseDomain }}"
+            - name: REACT_APP_AUTH_URL
+              value: "{{ .Values.url.protocol }}://{{ .Values.url.authSubdomain }}.{{ .Values.url.baseDomain }}"
+            - name: REACT_APP_YOUTUBE_KEY
+              value: "{{ .Values.youtubeApiKey }}"
+            - name: "REACT_APP_CLIENT_NAME"
+              value: "{{ .Values.oauth2ClientName }}"

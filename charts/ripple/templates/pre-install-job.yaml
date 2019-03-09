@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-database-job"
+  labels:
+    name: database-job
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-database-job"
+    spec:
+      restartPolicy: Never
+      containers:
+        {{- range .Values.databases }}
+          - name: '{{ .databaseName | replace "_" "-" }}-database-job'
+            image: bitnami/postgresql:10.7.0
+            command: [
+              "/bin/bash",
+              "-c",
+              "psql -c \"CREATE DATABASE {{ .databaseName }};\"; exit 0"
+            ]
+            env:
+              - name: PGHOST
+                value: {{ .host }}
+              - name: PGUSER
+                value: {{ .user }}
+              - name: PGPASSWORD
+                value: {{ .password }}
+        {{- end }}
+        

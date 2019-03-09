@@ -1,0 +1,48 @@
+url:
+  protocol: https
+  baseDomain: ripple.fm
+  apiSubdomain: api
+  authSubdomain: accounts
+
+images:
+  coreApi:
+    image: ripplefm/core-api
+    tag: 0.2.1
+  auth:
+    image: ripplefm/auth
+    tag: 0.1.4
+  web:
+    image: ripplefm/web
+    tag: 0.1.2
+
+replicas:
+  coreApi: 4
+  auth: 2
+  web: 2
+
+databases:
+  coreApi:
+    host: db-postgresql
+    user: postgres
+    password: {{ requiredEnv "POSTGRES_PASSWORD" }}
+    databaseName: ripple_api
+  auth:
+    host: db-postgresql
+    user: postgres
+    password: {{ requiredEnv "POSTGRES_PASSWORD" }}
+    databaseName: ripple_auth
+
+redis:
+  host: redis-master
+  password: {{ requiredEnv "REDIS_PASSWORD" }}
+
+cookieSecret: {{ requiredEnv "COOKIE_SECRET" }}
+
+mailgun:
+  apiKey: {{ requiredEnv "MAILGUN_API_KEY" }}
+  apiDomain: {{ requiredEnv "MAILGUN_API_DOMAIN" }}
+
+oauth2ClientName: ripple.fm
+
+youtubeApiKey: {{ requiredEnv "YOUTUBE_API_KEY" }}
+soundcloudApiKey: {{ requiredEnv "SOUNDCLOUD_API_KEY" }}

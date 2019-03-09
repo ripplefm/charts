@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ripple-auth-ingress
+spec:
+  rules:
+  - host: "{{ .Values.url.authSubdomain }}.{{ .Values.url.baseDomain }}"
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ .Release.Name }}-ripple-auth
+          servicePort: 3000

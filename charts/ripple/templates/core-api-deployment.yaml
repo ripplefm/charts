@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-ripple-core-api
+  labels:
+    app: ripple-core-api
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicas.coreApi }}
+  selector:
+    matchLabels:
+      app: ripple-core-api
+  template:
+    metadata:
+      labels:
+        app: ripple-core-api
+        release: {{ .Release.Name }}
+    spec:
+      serviceAccountName: ripple-core-api-serviceaccount
+      containers:
+        - name: {{ .Release.Name }}-ripple-core-api
+          image: {{ .Values.images.coreApi.image }}:{{ .Values.images.coreApi.tag }}
+          ports:
+            - containerPort: 4000
+          volumeMounts:
+            - name: key-volume
+              mountPath: /etc/config
+            - name: seed-volume
+              mountPath: /opt/app/lib/ripple-{{ .Values.images.coreApi.tag }}/priv/repo/seeds/station_templates.exs
+              subPath: station_templates.exs
+          env:
+            - name: DB_USERNAME
+              value: {{ .Values.databases.coreApi.user }}
+            - name: DB_PASSWORD
+              value: {{ .Values.databases.coreApi.password }}
+            - name: DB_HOSTNAME
+              value: "{{ .Values.databases.coreApi.host }}"
+            - name: DB_NAME
+              value: "{{ .Values.databases.coreApi.databaseName }}"
+            - name: YOUTUBE_API_KEY
+              value: {{ .Values.youtubeApiKey }}
+            - name: SOUNDCLOUD_API_KEY
+              value: {{ .Values.soundcloudApiKey }}   
+            - name: PRIVATE_KEY_LOCATION
+              value: "/etc/config/private_key.pem"
+            - name: PUBLIC_KEY_LOCATION
+              value: "/etc/config/public_key.pem"
+            - name: PORT
+              value: "4000"
+            - name: REPLACE_OS_VARS
+              value: "true"
+            - name: CLUSTER_ENABLED
+              value: "true"
+            - name: MIX_ENV
+              value: "prod"
+            - name: MY_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+      volumes:
+        - name: key-volume
+          configMap:
+            name: {{ .Release.Name }}-key-configmap
+        - name: seed-volume
+          configMap:
+            name: {{ .Release.Name }}-seed-configmap

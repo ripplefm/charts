@@ -1,3 +1,4 @@
 helmfiles:
   - "releases/postgresql.yaml"
   - "releases/redis.yaml"
+  - "releases/ripple.yaml"
