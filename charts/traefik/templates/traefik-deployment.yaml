@@ -1,5 +1,5 @@
 apiVersion: extensions/v1beta1
-kind: DaemonSet
+kind: Deployment
 metadata:
   name: traefik-ingress-controller
   namespace: kube-system
@@ -33,12 +33,6 @@ spec:
             - name: https
               containerPort: 443
               hostPort: 443
-          securityContext:
-            capabilities:
-              drop:
-                - ALL
-              add:
-                - NET_BIND_SERVICE
           args:
             - --api
             - --kubernetes
