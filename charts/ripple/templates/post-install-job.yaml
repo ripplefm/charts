@@ -27,6 +27,8 @@ spec:
           env:
             - name: PUBLIC_DOMAIN
               value: "{{ .Values.url.protocol }}://{{ .Values.url.baseDomain }}"
+            - name: AUTH_DOMAIN
+              value: "{{ .Values.url.protocol }}://{{ .Values.url.authSubdomain }}.{{ .Values.url.baseDomain }}"
             - name: COOKIE_SECRET
               value: "{{ .Values.cookieSecret }}"
             - name: REDIS_HOST
