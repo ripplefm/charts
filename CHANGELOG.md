@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2019-03-12
+
+### Changed
+
+* Auth service version bumped to `0.1.5`
+* Auth service now has `AUTH_DOMAIN` environment variable used for emails
+
 ## [0.1.2] - 2019-03-11
 
 ### Changed
