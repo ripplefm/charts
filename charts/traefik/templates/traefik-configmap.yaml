@@ -25,6 +25,10 @@ data:
         address = ":443"
         compress = true
         [entryPoints.https.tls]
+        [entryPoints.https.redirect]
+          permanent = true
+          regex = "^https://www.(.*)"
+          replacement = "https://$1"
     {{ else }}
     [entryPoints]
       [entryPoints.http]
@@ -50,5 +54,5 @@ data:
 
       [[acme.domains]]
         main = "{{ .Values.url.baseDomain }}"
-        sans = ["{{ .Values.url.apiSubdomain}}.{{ .Values.url.baseDomain }}", "{{ .Values.url.authSubdomain }}.{{ .Values.url.baseDomain }}"]
+        sans = ["www.{{ .Values.url.baseDomain }}", "{{ .Values.url.apiSubdomain}}.{{ .Values.url.baseDomain }}", "{{ .Values.url.authSubdomain }}.{{ .Values.url.baseDomain }}"]
     {{ end }}

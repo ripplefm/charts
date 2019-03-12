@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2019-03-11
+
+### Changed
+
+* Traefik now requests certificate for www subdomain
+* Traefik now redirects www to naked domain
+
 ## [0.1.1] - 2019-03-11
 
 ### Changed
