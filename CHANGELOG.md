@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2019-03-11
+
+### Changed
+
+* Traefik is now deployed as a Kubernetes Deployment instead of a Daemonset
+
 ## [0.1.0] - 2019-03-09
 
 ### Added
