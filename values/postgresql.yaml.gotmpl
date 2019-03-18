@@ -61,7 +61,7 @@ securityContext:
 replication:
   enabled: true
   user: repl_user
-  password: {{ requiredEnv "POSTGRES_REPL_PASSWORD" }}
+  # password:
   slaveReplicas: 1
   ## Set synchronous commit mode: on, off, remote_apply, remote_write and local
   ## ref: https://www.postgresql.org/docs/9.6/runtime-config-wal.html#GUC-WAL-LEVEL
@@ -79,7 +79,7 @@ postgresqlUsername: postgres
 ## PostgreSQL password
 ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md#setting-the-root-password-on-first-run
 ##
-postgresqlPassword: {{ requiredEnv "POSTGRES_PASSWORD" }}
+#postgresqlPassword:
 
 ## Create a database
 ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md#creating-a-database-on-first-run
