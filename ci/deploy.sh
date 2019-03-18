@@ -1,4 +1,5 @@
 #! /bin/bash
 
 set -e
-# do nothing for now
+
+helmfile apply --suppress-secrets

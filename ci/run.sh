@@ -2,4 +2,4 @@
 
 set -e
 
-helmfile lint
+helmfile diff --suppress-secrets
