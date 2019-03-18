@@ -8,27 +8,29 @@ The master branch reflects the current state of the cluster running ripple.fm in
 
 * [Prerequisites](#prerequisites)
 * [Technologies](#technologies)
-* [Getting Started](#getting-started)
+* [Development](#development)
   * [Initializing helm on the cluster](#initializing-helm-on-the-cluster)
-  * [Setting up environment variables](#setting-up-environment-variables)
+  * [Setting up helm secrets](#setting-up-helm-secrets)
   * [Setting chart values](#setting-chart-values)
+  * [Changing secret values](#changing-secret-values)
 * [Deployment](#deployment)
-  * [Checking diff](#checking-diff)
-  * [Applying](#applying)
+  * [Travis CI](#travis-ci)
+  * [Manual](#manual)
 
 # Prerequisites
 
 - kubernetes cluster ([minikube](https://kubernetes.io/docs/setup/minikube/) works)
-- [helm](https://helm.sh/) installed locally with the [helm-diff](https://github.com/databus23/helm-diff) plugin
+- [helm](https://helm.sh/) installed locally with the [helm-diff](https://github.com/databus23/helm-diff) and [helm secrets](https://github.com/futuresimple/helm-secrets) plugins
 - [helmfile](https://github.com/roboll/helmfile)
 
 # Technologies
 
 - [helm](https://helm.sh/)
+- [helm secrets](https://github.com/futuresimple/helm-secrets) to encrypt and decrypt helm values. Allows us to keep encrypted secrets and keys in version control
 - [helmfile](https://github.com/roboll/helmfile) to easily configure and manage multiple helm charts
 - [traefik](https://traefik.io/) as an ingress controller for ripple.fm services
 
-# Getting Started
+# Development
 
 ## Initializing helm on the cluster
 
@@ -46,60 +48,84 @@ Now that the cluster knows about the roles we can tell helm to install tiller wi
 $ helm init --service-account tiller
 ```
 
-## Setting up environment variables
+## Setting up helm secrets
 
-Currently chart secrets are defined in your `.env` file. To get started we can copy [.env.example](.env.example) to `.env`:
-
-```sh
-$ cp .env.example .env
-```
-
-After setting the values for each variable defined in `.env` we load the variables:
+Helm secrets uses PGP keys to encrypt sensitive values in our yaml files. We can import a PGP key using the following command:
 
 ```sh
-$ source .env
+$ gpg --import key.asc
 ```
 
 ## Setting chart values
 
 The majority of the coniguration for ripple.fm services is located [here](values/ripple.yaml.gotmpl). The default values should work fine but you'll probably want to change `url.protocol` and `url.baseDomain`.
 
-The configuration for ripple.fm also requires a public and private RSA key pair, an example is provided [here](values/ssl.example.yaml). We'll copy this example file to the `value/secret` folder where it will be read with production value keys:
+### Secrets
+
+Sensitive values are stored in the encrypted file [values/secrets.yaml](values/secrets.yaml). We can create our own secret values by renaming the `values/secrets.example.yaml` file to `values/secrets.yaml` and providing our values. After we provide our secrets we must encrypt the `values/secrets.yaml` file so that changes can be tracked in version control:
 
 ```sh
-$ cp values/ssl.example.yaml values/secret/ssl.yaml
+$ helm secrets enc values/secrets.yaml
 ```
 
-We then [generate](https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL#Generate_an_RSA_keypair_with_a_2048_bit_private_key) and paste (or paste existing) RSA keys into `values/secret/ssl.yaml`
+### SSL Keys
 
-ripple.fm also allows for providing templates for stations to be seeded and started with autoplayers. The [station_templates.example.yaml](values/station_templates.example.yaml) provides a basic example file which we must copy to the `values/secret` folder:
+The configuration for ripple.fm also requires a public and private RSA key pair, an example is provided [here](values/ssl.example.yaml).
+
+We'll rename this file to `values/ssl.yaml` and change the values for the keys ([generate](https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL#Generate_an_RSA_keypair_with_a_2048_bit_private_key) and paste (or paste existing) the RSA keys into `values/ssl.yaml`). After changing the values we must encrypt the file so that it can be tracked in version control:
 
 ```sh
-$ cp values/station_templates.example.yaml values/secret/station_templates.yaml
+$ helm secrets enc values/ssl.yaml
+```
+
+### Station Templates
+
+We then 
+
+ripple.fm also allows for providing templates for stations to be seeded and started with autoplayers. The [station_templates.example.yaml](values/station_templates.example.yaml) provides a basic example file which we must rename to `values/station_templates.yaml`. After renaming (and optionally editting) the file we must encrypt it:
+
+```sh
+$ helm secrets enc values/station_templates.yaml
 ```
 
 The example templates file provides a few stations that can be seeded but you may edit it to add more custom stations.
 
+## Changing secret values
+
+Secrets are stored as encrypted files in version control ([example](values/secrets.yaml)). If you need to update or add values to the secret files follow these steps:
+
+1. Ensure you have the correct PGP keys configured
+1. Decrypt the secret file you wish to work with:
+    ```sh
+    $ helm secrets dec values/$MY_FILE.yaml
+    ```
+1. The file will be decrypted and available as `values/$MY_FILE.yaml.dec`. Edit the `.yaml.dec` file and make the required changes
+1. Encrypt the updated file:
+    ```sh
+    $ helm secrets enc values/$MY_FILE.yaml
+    ```
+1. Commit the newly encrypted file to version control
+
 # Deployment
 
-## Checking diff
+## Travis CI
 
-Once we are finished with changes for our releases we can compare the newly declared state with the state currently running on the cluster using:
+The state declared in the master branch of this repository reflects the state on the production Kubernetes cluster. Whenever a pull request is made travis-ci will run a build which will log the output of `helmfile diff` and show the comparison of the declared state and the production state.
 
-```sh
-$ helmfile diff
-```
+Once a pull request is merged into the `master` branch, travis-ci will run a build which executes `helmfile apply` and updates the desired cluster state.
 
-This will output the changes required to achieve the newly declared state. More information is available [here](https://github.com/roboll/helmfile#diff).
+## Manual
 
-## Applying
+Although it is not recommended, we can manually view or change the state of the cluster:
 
-If we are satisfied with the changes after running `helmfile diff` we can apply the new state:
+1. Ensure your kubeconfig is pointed to the desired cluster and you can succesfully run `kubectl get nodes`
+1. Compare declared state with existing cluster state:
+    ```sh
+    $ helmfile diff
+    ```
+1. Apply changes from above step to cluster state:
+    ```sh
+    $ helmfile apply
+    ```
 
-```sh
-$ helmfile apply
-```
-
-This will sync the local state with the state running in the cluster. More information is available [here](https://github.com/roboll/helmfile#apply).
-
-
+More information on manual deployment available [here.](https://github.com/roboll/helmfile)
