@@ -35,3 +35,9 @@ spec:
                   key: youtubeApiKey
             - name: "REACT_APP_CLIENT_NAME"
               value: "{{ .Values.oauth2ClientName }}"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 30
