@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ .Release.Name}}-key-configmap
-data:
-  public_key.pem:
-    {{ required "publicKey is required" .Values.publicKey | quote }}
-  private_key.pem:
-    {{ required "privateKey is required" .Values.privateKey | quote }}
