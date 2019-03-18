@@ -19,7 +19,7 @@ mkdir "${HOME}/.kube" && \
   --output "${HOME}/.kube/config"
 
 # install helm, helm-diff and helm-secrets
-curl -L -s https://storage.googleapis.com/kubernetes-helm/helm-v2.13.0-linux-amd64.tar.gz --output helm.tar.gz && \
+curl -L -s https://storage.googleapis.com/kubernetes-helm/helm-v2.12.3-linux-amd64.tar.gz --output helm.tar.gz && \
   tar -zxvf helm.tar.gz && \
   sudo mv linux-amd64/helm /usr/local/bin/helm && \
   helm init --client-only && \
