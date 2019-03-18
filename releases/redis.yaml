@@ -6,3 +6,5 @@ releases:
     wait: true
     values:
       - "../values/redis.yaml.gotmpl"
+    secrets:
+      - "../values/secrets.yaml"

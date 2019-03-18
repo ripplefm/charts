@@ -4,6 +4,8 @@ releases:
     chart: "../charts/ripple"
     wait: true
     values:
-      - "../values/secret/ssl.yaml"
-      - "../values/secret/station_templates.yaml"
       - "../values/ripple.yaml.gotmpl"
+    secrets:
+      - "../values/ssl.yaml"
+      - "../values/secrets.yaml"
+      - "../values/station_templates.yaml"

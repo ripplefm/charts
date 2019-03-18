@@ -19,3 +19,5 @@ vendor/
 .settings/**
 .env
 values/secret
+*.yaml.dec
+*.asc
