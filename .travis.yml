@@ -1,5 +1,7 @@
 language: generic
 
+sudo: required
+
 before_install: 
   openssl aes-256-cbc -K $encrypted_9b522f2f6d89_key -iv $encrypted_9b522f2f6d89_iv -in ci/pgp/key.asc.enc -out ci/pgp/key.asc -d
 
