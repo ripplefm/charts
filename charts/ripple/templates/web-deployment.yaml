@@ -29,6 +29,9 @@ spec:
             - name: REACT_APP_AUTH_URL
               value: "{{ .Values.url.protocol }}://{{ .Values.url.authSubdomain }}.{{ .Values.url.baseDomain }}"
             - name: REACT_APP_YOUTUBE_KEY
-              value: "{{ .Values.youtubeApiKey }}"
+              valueFrom:
+                secretKeyRef:
+                  name: ripple-secrets
+                  key: youtubeApiKey
             - name: "REACT_APP_CLIENT_NAME"
               value: "{{ .Values.oauth2ClientName }}"

@@ -23,6 +23,7 @@ spec:
             - containerPort: 3000
           volumeMounts:
             - name: key-volume
+              readOnly: true
               mountPath: /etc/config
           env:
             - name: PUBLIC_DOMAIN
@@ -30,23 +31,38 @@ spec:
             - name: AUTH_DOMAIN
               value: "{{ .Values.url.protocol }}://{{ .Values.url.authSubdomain }}.{{ .Values.url.baseDomain }}"
             - name: COOKIE_SECRET
-              value: "{{ .Values.cookieSecret }}"
+              valueFrom:
+                secretKeyRef:
+                  name: ripple-secrets
+                  key: cookieSecret
             - name: REDIS_HOST
               value: "{{ .Values.redis.host }}"
             - name: REDIS_PASSWORD
-              value: "{{ .Values.redis.password }}"
+              valueFrom:
+                secretKeyRef:
+                  name: ripple-secrets
+                  key: redisPassword
             - name: POSTGRES_HOST
               value: "{{ .Values.databases.auth.host }}"
             - name: POSTGRES_USERNAME
               value: "{{ .Values.databases.auth.user }}"
             - name: POSTGRES_PASSWORD
-              value: "{{ .Values.databases.auth.password }}"
+              valueFrom:
+                secretKeyRef:
+                  name: ripple-secrets
+                  key: authPostgresqlPassword
             - name: POSTGRES_DATABASE
               value: "{{ .Values.databases.auth.databaseName }}"
             - name: MAILGUN_API_KEY
-              value: "{{ .Values.mailgun.apiKey }}"
+              valueFrom:
+                secretKeyRef:
+                  name: ripple-secrets
+                  key: mailgunApiKey
             - name: MAILGUN_API_DOMAIN
-              value: "{{ .Values.mailgun.apiDomain }}"
+              valueFrom:
+                secretKeyRef:
+                  name: ripple-secrets
+                  key: mailgunApiDomain
             - name: PUBLIC_KEY_LOCATION
               value: "/etc/config/public_key.pem"
             - name: PRIVATE_KEY_LOCATION
@@ -55,5 +71,5 @@ spec:
               value: "production"
       volumes:
         - name: key-volume
-          configMap:
-            name: {{ .Release.Name }}-key-configmap
+          secret:
+            secretName: ripple-rsa-secrets

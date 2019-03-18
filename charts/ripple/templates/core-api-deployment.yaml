@@ -24,6 +24,7 @@ spec:
             - containerPort: 4000
           volumeMounts:
             - name: key-volume
+              readOnly: true
               mountPath: /etc/config
             - name: seed-volume
               mountPath: /opt/app/lib/ripple-{{ .Values.images.coreApi.tag }}/priv/repo/seeds/station_templates.exs
@@ -32,15 +33,24 @@ spec:
             - name: DB_USERNAME
               value: {{ .Values.databases.coreApi.user }}
             - name: DB_PASSWORD
-              value: {{ .Values.databases.coreApi.password }}
+              valueFrom:
+                secretKeyRef:
+                  name: ripple-secrets
+                  key: coreApiPostgresqlPassword
             - name: DB_HOSTNAME
               value: "{{ .Values.databases.coreApi.host }}"
             - name: DB_NAME
               value: "{{ .Values.databases.coreApi.databaseName }}"
             - name: YOUTUBE_API_KEY
-              value: {{ .Values.youtubeApiKey }}
+              valueFrom:
+                secretKeyRef:
+                  name: ripple-secrets
+                  key: youtubeApiKey
             - name: SOUNDCLOUD_API_KEY
-              value: {{ .Values.soundcloudApiKey }}   
+              valueFrom:
+                secretKeyRef:
+                  name: ripple-secrets
+                  key: soundcloudApiKey
             - name: PRIVATE_KEY_LOCATION
               value: "/etc/config/private_key.pem"
             - name: PUBLIC_KEY_LOCATION
@@ -59,8 +69,8 @@ spec:
                   fieldPath: status.podIP
       volumes:
         - name: key-volume
-          configMap:
-            name: {{ .Release.Name }}-key-configmap
+          secret:
+            secretName: ripple-rsa-secrets
         - name: seed-volume
           configMap:
             name: {{ .Release.Name }}-seed-configmap

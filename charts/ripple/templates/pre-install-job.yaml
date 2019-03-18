@@ -14,7 +14,7 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-        {{- range .Values.databases }}
+        {{- range $key, $value := .Values.databases }}
           - name: '{{ .databaseName | replace "_" "-" }}-database-job'
             image: bitnami/postgresql:10.7.0
             command: [
@@ -28,6 +28,9 @@ spec:
               - name: PGUSER
                 value: {{ .user }}
               - name: PGPASSWORD
-                value: {{ .password }}
+                valueFrom:
+                  secret:
+                    secretKeyRef: ripple-secrets
+                    name: {{ $key }}PostgresqlPassword
         {{- end }}
         
