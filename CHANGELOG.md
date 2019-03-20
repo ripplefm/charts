@@ -11,7 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-* Auth service version bumped to `0.2.0`
+* CI Setup now has specific version for helm diff plugin
+* Auth service version bumped to `0.2.1`
 
 ## [0.4.1] - 2019-03-18
 
