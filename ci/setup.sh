@@ -23,7 +23,7 @@ curl -L -s https://storage.googleapis.com/kubernetes-helm/helm-v2.12.3-linux-amd
   tar -zxvf helm.tar.gz && \
   sudo mv linux-amd64/helm /usr/local/bin/helm && \
   helm init --client-only && \
-  helm plugin install https://github.com/databus23/helm-diff && \
+  helm plugin install https://github.com/databus23/helm-diff --version 2.11.0+3 && \
   helm plugin install https://github.com/futuresimple/helm-secrets
 
 # install helmfile
