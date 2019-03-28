@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.0] - 2019-03-28
+
+### Changed
+
+* Core API service bumped to `0.4.1`
+* Auth service bumped to `0.2.3`
+
 ## [0.8.0] - 2019-03-24
 
 ### Changed
