@@ -11,4 +11,4 @@ spec:
     release: {{ .Release.Name }}
   ports:
     - protocol: TCP
-      port: 8080
+      port: 3000

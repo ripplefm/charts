@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.0] - 2019-03-28
+
+### Changed
+
+* Web service updated to `0.3.0` along with required environment and port updates
+
 ## [0.9.0] - 2019-03-28
 
 ### Changed
