@@ -10,4 +10,4 @@ spec:
           - path: /
             backend:
               serviceName:  {{ .Release.Name }}-ripple-web
-              servicePort:  8080
+              servicePort:  3000

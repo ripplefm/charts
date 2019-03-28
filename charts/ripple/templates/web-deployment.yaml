@@ -20,24 +20,35 @@ spec:
         - name: {{ .Release.Name }}-ripple-web
           image: {{ .Values.images.web.image }}:{{ .Values.images.web.tag }}
           ports:
-            - containerPort: 8080
+            - containerPort: 3000
           env:
             - name: NODE_ENV
               value: "production"
-            - name: REACT_APP_CORE_API_URL
+            - name: RIPPLE_URL
+              value: "{{ .Values.url.protocol }}://{{ .Values.url.baseDomain }}"
+            - name: CORE_API_URL
               value: "{{ .Values.url.protocol }}://{{ .Values.url.apiSubdomain }}.{{ .Values.url.baseDomain }}"
-            - name: REACT_APP_AUTH_URL
+            - name: AUTH_URL
               value: "{{ .Values.url.protocol }}://{{ .Values.url.authSubdomain }}.{{ .Values.url.baseDomain }}"
-            - name: REACT_APP_YOUTUBE_KEY
+            - name: CORE_API_URL_INTERNAL
+              value: "http://{{ .Release.Name }}-ripple-core-api:4000"
+            - name: AUTH_URL_INTERNAL
+              value: "http://{{ .Release.Name }}-ripple-auth:3000"
+            - name: YOUTUBE_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: ripple-secrets
                   key: youtubeApiKey
-            - name: "REACT_APP_CLIENT_NAME"
+            - name: SOUNDCLOUD_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ripple-secrets
+                  key: soundcloudApiKey
+            - name: OAUTH_CLIENT_NAME
               value: "{{ .Values.oauth2ClientName }}"
           readinessProbe:
             httpGet:
               path: /
-              port: 8080
-            initialDelaySeconds: 30
-            periodSeconds: 30
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 5
