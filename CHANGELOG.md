@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.13.0] - 2019-04-01
+
+### Changed
+
+* Web service bumped to `0.6.1`
+
 ## [0.12.0] - 2019-03-30
 
 ### Changed
