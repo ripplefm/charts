@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.14.0] - 2019-04-02
+
+### Changed
+
+* Web service bumped to `0.7.1` with support for Google Analytics
+
 ## [0.13.0] - 2019-04-01
 
 ### Changed

@@ -46,6 +46,11 @@ spec:
                   key: soundcloudApiKey
             - name: OAUTH_CLIENT_NAME
               value: "{{ .Values.oauth2ClientName }}"
+            - name: GOOGLE_ANALYTICS_ID
+              valueFrom:
+                secretKeyRef:
+                  name: ripple-secrets
+                  key: googleAnalyticsId
           readinessProbe:
             httpGet:
               path: /
