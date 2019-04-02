@@ -51,3 +51,5 @@ publicKey:
 privateKey:
 
 station_templates:
+
+googleAnalyticsId:
