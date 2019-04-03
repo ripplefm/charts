@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+* Core API replicas reduced to 2
 * Web service bumped to `0.7.2`
 
 ## [0.15.0] - 2019-04-03
