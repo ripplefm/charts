@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.15.0] - 2019-04-03
+
+### Changed
+
+* Add new station templates and update sources for existing ones
+
 ## [0.14.0] - 2019-04-02
 
 ### Changed
