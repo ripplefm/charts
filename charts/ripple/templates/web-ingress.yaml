@@ -2,7 +2,14 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: ripple-web-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: acme-issuer
+    acme.cert-manager.io/http01-edit-in-place: "true"
 spec:
+  tls:
+    - hosts:
+        -  {{ .Values.url.baseDomain | quote }}
+      secretName: ripple-web-certificate
   rules:
     - host: "{{ .Values.url.baseDomain }}"
       http:
