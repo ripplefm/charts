@@ -33,4 +33,3 @@ releases:
                   - selector: {}
                     http01:
                       ingress: {}
-                
